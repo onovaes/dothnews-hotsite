@@ -1,4 +1,6 @@
 import nodemailer from 'nodemailer'
+import { checkBotId } from 'botid/server'
+import { escapeHtml, nl2br, fieldValue, hasValue, normalizeEmail, isValidEmail, getMailtoHref } from './_utils.js'
 
 // Destinatários dos leads vêm de env var (CONTACT_RECIPIENTS, separados por vírgula).
 // Nunca commitar e-mails reais aqui. Configure em .env / nas variáveis da Vercel.
@@ -58,46 +60,6 @@ const transporter = nodemailer.createTransport({
     pass: process.env.MAIL_PASS,
   },
 })
-
-function escapeHtml(value) {
-  return String(value ?? '').replace(/[&<>"']/g, (char) => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;',
-  })[char])
-}
-
-function nl2br(value) {
-  return escapeHtml(value).replace(/\r?\n/g, '<br>')
-}
-
-function fieldValue(value, fallback = 'Não informado') {
-  const normalized = String(value ?? '').trim()
-  return normalized ? normalized : fallback
-}
-
-function hasValue(value) {
-  return String(value ?? '').trim().length > 0
-}
-
-function normalizeEmail(value) {
-  return String(value ?? '').trim()
-}
-
-function isValidEmail(value) {
-  const email = normalizeEmail(value)
-  // RFC 5321: comprimento máximo de 254 e exatamente um "@".
-  if (email.length === 0 || email.length > 254) return false
-  if ((email.match(/@/g) || []).length !== 1) return false
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-}
-
-function getMailtoHref(value) {
-  const email = normalizeEmail(value)
-  return email ? `mailto:${encodeURIComponent(email)}` : ''
-}
 
 function getMailFrom() {
   const rawFrom = String(process.env.MAIL_FROM ?? '').trim()
@@ -432,6 +394,13 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST')
     return res.status(405).json({ rs: 'erro', msg: 'Method not allowed.' })
+  }
+
+  // Vercel BotID — challenge invisível (camada além do honeypot/rate-limit).
+  // Em dev local sempre retorna isBot:false; em produção exige o challenge do client.
+  const verification = await checkBotId()
+  if (verification.isBot) {
+    return res.status(403).json({ rs: 'erro', msg: 'Acesso negado.' })
   }
 
   if (isRateLimited(getClientIp(req))) {

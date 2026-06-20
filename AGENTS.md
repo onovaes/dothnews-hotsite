@@ -19,9 +19,22 @@ Este repositorio contem a landing page da DothNews, criada para apresentar a pla
 npm run dev
 npm run build
 npm run preview
+npm test
 ```
 
-Use `npm run build` como validacao principal antes de finalizar alteracoes de codigo.
+Use `npm run build` e `npm test` como validacao principal antes de finalizar alteracoes de codigo.
+
+## Testes (obrigatorio)
+
+**Sempre escreva testes** — vale para humanos e IAs. O projeto usa Vitest (`npm test`).
+Toda logica nova (validacao, parsing, formatacao, regra de negocio) vem com testes; bug fix inclui teste que reproduz o bug. Prefira extrair logica pura para modulos testaveis (ex.: `api/_utils.js`). O CI roda `npm test` em todo push/PR. Detalhes em `CLAUDE.md`.
+
+## Seguranca (obrigatorio)
+
+**Nunca vaze tokens/segredos nem introduza falhas de seguranca** (humanos e IAs):
+- Nunca hardcode segredos, chaves, tokens, senhas ou e-mails reais; use env vars. Nunca commite `.env`. Nao logue segredos nem PII.
+- Sempre valide no servidor e escape entrada que vai pra HTML. Nao remova honeypot, rate-limit, headers, CORS por `ALLOWED_ORIGIN` e BotID do `/api/contact`.
+- Use dados ficticios em exemplos/testes. Detalhes completos em `CLAUDE.md`.
 
 ## Padroes de implementacao
 

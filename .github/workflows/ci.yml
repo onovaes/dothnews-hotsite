@@ -26,5 +26,8 @@ jobs:
       - name: Instalar dependências
         run: npm ci
 
+      - name: Testes unitários
+        run: npm test
+
       - name: Build (inclui SSR + pré-render)
         run: npm run build
