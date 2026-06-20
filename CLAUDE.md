@@ -28,7 +28,7 @@ Landing page da DothNews para posicionar a solucao como infraestrutura editorial
 - O reveal de scroll fica em `src/components/ui.jsx` e registra listeners globais no modulo.
 - O liquid glass usa pseudo-elementos SCSS e filtro SVG em `src/App.jsx`; mudar um lado pode quebrar o outro.
 - O build faz pre-render usando `src/entry-server.jsx` e `scripts/prerender.mjs`; preserve o marcador `<div id="root"><!--app-html--></div>` em `index.html`.
-- O `prerender.mjs` tambem INLINA o CSS no `dist/index.html` (remove o `<link rel="stylesheet">` e o arquivo `.css`): elimina o request render-blocking e encurta a cadeia critica de fontes. Por isso o `dist` final nao tem `.css` externo — e esperado. Mantenha as fontes acima da dobra no `preload` do `index.html`.
+- O `prerender.mjs` tambem INLINA o CSS no `dist/index.html` (remove o `<link rel="stylesheet">` e o arquivo `.css`): elimina o request render-blocking e encurta a cadeia critica de fontes. Por isso o `dist` final nao tem `.css` externo — e esperado. As fontes sao descobertas do `@font-face` inlinado (nao usamos preload de fonte; com o CSS inline elas ja carregam cedo e `font-display: swap`/`block` cuidam do resto). Preload so para imagem LCP (blob-blue, primeiro slide do carousel).
 - SEO tecnico fica principalmente em `index.html`, `public/robots.txt`, `public/sitemap.xml` e `public/assets/og-image.png`.
 - Se mudar copy publica, secoes, FAQ, ancoras, oferta, URL canonica, imagem social ou dados institucionais, revise title, description, canonical, hreflang, Open Graph, Twitter Card, JSON-LD e sitemap.
 - Se alterar perguntas/respostas do FAQ visual, sincronize o schema `FAQPage` em `index.html`.

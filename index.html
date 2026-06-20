@@ -40,10 +40,11 @@
     <meta name="twitter:image" content="https://dothnews.com.br/assets/og-image.png" />
     <meta name="twitter:image:alt" content="DothNews, plataforma e infraestrutura especializada para portais de notícias" />
 
-    <!-- Fontes IBM Plex — auto-hospedadas, preload das variantes críticas para o primeiro render -->
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" />
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" />
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/ibm-plex-sans-latin-700-normal.woff2" />
+    <!-- Fontes IBM Plex / Material Symbols: auto-hospedadas, descobertas direto do
+         @font-face inlinado no <head> (o prerender.mjs inlina o CSS). Não usamos
+         preload de fonte aqui de propósito: com o CSS inline elas já carregam cedo,
+         e font-display: swap evita FOIT. Preload de fonte gerava aviso "preload not
+         used" sem ganho real. -->
 
     <!-- Performance: preload da imagem LCP (primeiro slide do carousel hero) -->
     <!-- imagesrcset/imagesizes devem casar com hero.jsx (CAROUSEL_WIDTHS + sizes) -->
@@ -57,8 +58,8 @@
 
     <!-- Material Symbols (ícones): auto-hospedado e subsetado em /assets/fonts/ com @font-face
          em index.css (font-display: block). Self-hosted evita o FOIT que mostrava o texto cru
-         da ligadura (ex.: "arrow_outward") no primeiro acesso. Ver DESIGN.md. -->
-    <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/material-symbols-outlined.woff2" />
+         da ligadura (ex.: "arrow_outward") no primeiro acesso. Carregado via @font-face
+         inlinado (sem preload, para não competir banda com o LCP). Ver DESIGN.md. -->
     <script>
       document.documentElement.classList.add('js')
       // Revela os ícones só quando as fontes estiverem prontas (evita flash da ligadura crua).

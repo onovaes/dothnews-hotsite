@@ -175,6 +175,7 @@ const SLIDES = [
   adminSlide('criar-post',              'Editor de conteúdo da plataforma DothNews',       'Editor de conteúdo'),
   adminSlide('app-token',               'Tela de App Token da plataforma DothNews',        'App Token'),
   adminSlide('dispositivos-conectados', 'Dispositivos conectados na plataforma DothNews',  'Dispositivos conectados'),
+  adminSlide('search-console-missing-urls', 'Detecção de URLs 404 com criação de redirecionamento', 'Recuperação de 404'),
 ]
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────

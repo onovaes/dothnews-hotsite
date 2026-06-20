@@ -93,6 +93,14 @@ const SGI_SLIDES = [
     text: 'Visibilidade dos dispositivos e sessões conectados à operação, com controle de acesso e encerramento remoto.',
     imgW: 1846, imgH: 928,
   },
+  {
+    src: `${ADMIN_WEBP}/search-console-missing-urls-1142.webp`,
+    srcSet: adminSrcSet('search-console-missing-urls'),
+    alt: 'Detecção de URLs 404 com criação de redirecionamento',
+    label: '// recuperação de 404',
+    text: 'Detecta automaticamente as URLs que retornam 404 e permite criar o redirecionamento na hora — nenhum acesso (nem SEO) é perdido por link quebrado.',
+    imgW: 1846, imgH: 928,
+  },
 ]
 
 // WebP gerados por `npm run images` em /assets/monitoramento/webp/.
