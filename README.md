@@ -2,6 +2,16 @@
 
 Landing page institucional da DothNews, voltada para apresentar a plataforma como infraestrutura editorial especializada para portais de noticias. A pagina comunica autoridade, diferenciais tecnicos, validacao de mercado e conduz o visitante para uma solicitacao de diagnostico consultivo.
 
+![Home da landing DothNews](docs/screenshot-home.png)
+
+## Hospedagem
+
+O site e hospedado na **Vercel**, na conta do Gabriel Novaes:
+- Projeto: https://vercel.com/doth-team/dothnews-hotsite
+- Producao: https://www.dothnews.com.br
+
+Deploy continuo a partir da branch `main` (repositorio `onovaes/dothnews-hotsite`). Telemetria via Vercel **Speed Insights** e **Web Analytics**. Variaveis de ambiente do formulario configuradas no projeto da Vercel (ver secao de variaveis de ambiente).
+
 ## Objetivo
 
 Esta landing foi criada para apoiar a captacao de operacoes editoriais que cresceram alem de solucoes genericas de site ou CMS. O discurso central e que a DothNews nao e uma plataforma adaptada para portais: ela foi construida para sustentar audiencia, receita, estabilidade, suporte e evolucao continua em operacoes jornalisticas digitais.
