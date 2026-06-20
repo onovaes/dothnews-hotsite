@@ -33,11 +33,41 @@ Landing page da DothNews para posicionar a solucao como infraestrutura editorial
 - Atualize `dateModified` no JSON-LD e `lastmod` no sitemap quando publicar mudancas relevantes de conteudo.
 - Os arquivos `._*` sao artefatos do macOS/volume externo e devem continuar ignorados.
 
+## Testes (obrigatorio)
+
+**Sempre escreva testes.** Esta regra vale para todos os colaboradores — humanos e IAs.
+
+- O projeto usa **Vitest**. Rode com `npm test` (uma vez) ou `npm run test:watch` (desenvolvimento).
+- Toda nova funcao de logica (validacao, parsing, formatacao, sanitizacao, regra de negocio) deve vir **acompanhada de testes**. Correcao de bug deve incluir um teste que reproduz o bug.
+- Prefira extrair logica pura para modulos testaveis (ex.: `api/_utils.js`; arquivos `_*` em `api/` nao viram rota na Vercel) e testar isoladamente, evitando efeitos colaterais (rede, env, nodemailer, botid).
+- Testes ficam ao lado do codigo com sufixo `.test.js`. Nao remova testes para "fazer passar"; conserte o codigo ou ajuste o teste com justificativa.
+- O CI roda `npm test` em todo push/PR; nao mergeie com testes quebrados.
+
+## Seguranca (obrigatorio)
+
+**Nunca gere vazamento de tokens/segredos nem introduza falhas de seguranca.** Vale para humanos e IAs.
+
+Segredos e dados sensiveis:
+- **Nunca** hardcode segredos, chaves de API, tokens, senhas ou e-mails reais no codigo, testes, docs ou mensagens de commit. Use variaveis de ambiente (`CONTACT_RECIPIENTS`, `ALLOWED_ORIGIN`, `RESEND_API_KEY`, `MAIL_*`, etc.).
+- **Nunca** commite `.env`/`.env.*` (ja estao no `.gitignore`); confira o diff antes de commitar.
+- Nao logue segredos, corpo de requisicao com dados pessoais, nem `process.env` em `console.log`. Em erros, logue mensagem generica (ja feito em `api/contact.js`).
+- Nao exponha detalhes de ambiente em respostas (ex.: `NODE_ENV`) nem mensagens de erro com stack/infra.
+- Use dados ficticios em exemplos/amostras/testes (ex.: `contato@example.com`) — nunca PII real.
+
+Entrada do usuario e endpoints:
+- Sempre valide no servidor (nao confie no front). Escape/sanitize toda entrada que entra em HTML (`escapeHtml`/`nl2br` em `api/_utils.js`).
+- Nao remova as protecoes existentes do `/api/contact`: honeypot (`empresa_site`), rate-limit por IP, headers de seguranca, CORS restrito por `ALLOWED_ORIGIN` e o BotID (`checkBotId`).
+- Evite `dangerouslySetInnerHTML`/`innerHTML` com conteudo dinamico nao sanitizado.
+- Ao adicionar dependencias, prefira fontes confiaveis; o Dependabot acompanha atualizacoes de seguranca.
+
+Se uma mudanca exigir um novo segredo, adicione apenas o **nome** da variavel na doc/README e configure o valor nas envs da Vercel — nunca o valor real no repo.
+
 ## Antes de commitar
 
 Quando o usuario pedir commit, faca uma varredura objetiva:
 
 - Leia o diff.
+- Rode `npm test` e garanta que os testes passam; escreva/atualize testes para o que mudou.
 - Rode `npm run build` se houve mudanca em codigo, estilos ou assets usados pela pagina.
 - Atualize `README.md` se as mudancas alterarem o que a landing e, como ela funciona, quais tecnologias usa, comandos, estrutura, assets ou observacoes de manutencao.
 - Confira se mudancas de SEO, copy publica, FAQ, assets sociais ou URLs exigem ajuste em `index.html`, `public/robots.txt`, `public/sitemap.xml`, `README.md` ou `AGENTS.md`.

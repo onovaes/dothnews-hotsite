@@ -92,9 +92,26 @@ npm run dev        # dev server Vite (porta 5299)
 npm run build      # build de produção com pre-render
 npm run preview    # preview do build estático
 npm start          # inicia o servidor Express de produção (requer build prévio)
+npm test           # roda os testes unitários (Vitest)
+npm run test:watch # testes em modo watch
 ```
 
 `npm run build` executa três etapas: build client do Vite, build SSR de `src/entry-server.jsx` e pre-render via `scripts/prerender.mjs`. O script também remove a pasta temporária `dist/server` e artefatos AppleDouble `._*` do `dist`.
+
+## Testes
+
+O projeto usa **[Vitest](https://vitest.dev/)** para testes unitários.
+
+```bash
+npm test            # executa todos os testes uma vez (usado no CI)
+npm run test:watch  # re-executa ao salvar, ótimo durante o desenvolvimento
+```
+
+- Os testes ficam ao lado do código, com sufixo `.test.js` (ex.: `api/_utils.test.js`).
+- Foque em **lógica pura e testável**: validação, sanitização, formatação, transformação de dados. Extraia helpers para módulos próprios (ex.: `api/_utils.js`, arquivos `_*` não viram rota na Vercel) e teste-os isoladamente.
+- O CI (`.github/workflows/ci.yml`) roda `npm test` em todo push e Pull Request — PRs com testes quebrados não devem ser mergeados.
+
+> **Para devs (humanos e IAs):** toda nova função de lógica (validação, parsing, formatação, regras de negócio) deve vir **acompanhada de testes**. Correções de bug devem incluir um teste que reproduz o bug. Mantenha e expanda a suíte — não remova testes para "fazer passar".
 
 ## Desenvolvimento
 
