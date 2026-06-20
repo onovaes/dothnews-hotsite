@@ -129,7 +129,7 @@ function Carousel({ slides, interval = 3500, transition = 'fade' }) {
         </div>
 
         {/* Caption */}
-        <p className="py-3 text-center text-[14px] leading-normal text-neutral-0 md:text-neutral-500">
+        <p className="py-3 text-center text-[15px] sm:text-[16px] font-medium leading-snug text-neutral-0 md:text-subink">
           {slides[current].label}
         </p>
 
@@ -170,13 +170,13 @@ function adminSlide(name, alt, label) {
 }
 
 const SLIDES = [
-  adminSlide('dashboard',               'Painel de gestão editorial da DothNews',          'Painel principal'),
-  adminSlide('posts',                   'Listagem de publicações da plataforma DothNews',  'Gestão de publicações'),
-  adminSlide('criar-post',              'Editor de conteúdo da plataforma DothNews',       'Editor de conteúdo'),
-  adminSlide('app-token',               'Tela de App Token da plataforma DothNews',        'App Token'),
-  adminSlide('dispositivos-conectados', 'Dispositivos conectados na plataforma DothNews',  'Dispositivos conectados'),
-  adminSlide('search-console-missing-urls', 'Detecção de URLs 404 com criação de redirecionamento', 'Recuperação de 404'),
-  adminSlide('desempenho', 'Painel de desempenho do site: tráfego, audiência e melhor hora para publicar', 'Desempenho do site'),
+  adminSlide('dashboard',               'Painel de gestão editorial da DothNews',          'Toda a sua operação em um só painel'),
+  adminSlide('posts',                   'Listagem de publicações da plataforma DothNews',  'Publique com controle total e sem fricção'),
+  adminSlide('criar-post',              'Editor de conteúdo da plataforma DothNews',       'Um editor feito para a velocidade da redação'),
+  adminSlide('app-token',               'Tela de App Token da plataforma DothNews',        'Integrações seguras via API, no seu controle'),
+  adminSlide('dispositivos-conectados', 'Dispositivos conectados na plataforma DothNews',  'Controle total de acessos e dispositivos'),
+  adminSlide('search-console-missing-urls', 'Detecção de URLs 404 com criação de redirecionamento', 'Recupere acessos perdidos em páginas 404'),
+  adminSlide('desempenho', 'Painel de desempenho do site: tráfego, audiência e melhor hora para publicar', 'Descubra a melhor hora para publicar'),
 ]
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
