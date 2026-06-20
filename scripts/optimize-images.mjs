@@ -52,7 +52,7 @@ async function processDirs() {
   const ADMIN = join(ASSETS, 'area-administrativa')
   const ADMIN_WEBP = join(ADMIN, 'webp')
   await mkdir(ADMIN_WEBP, { recursive: true })
-  const carouselFiles = ['dashboard', 'posts', 'criar-post', 'app-token', 'dispositivos-conectados', 'search-console-missing-urls']
+  const carouselFiles = ['dashboard', 'posts', 'criar-post', 'app-token', 'dispositivos-conectados', 'search-console-missing-urls', 'desempenho']
   console.log('\n[carousel slides — area-administrativa]')
   for (const name of carouselFiles) {
     if (!matches(name)) continue

@@ -101,6 +101,14 @@ const SGI_SLIDES = [
     text: 'Detecta automaticamente as URLs que retornam 404 e permite criar o redirecionamento na hora — nenhum acesso (nem SEO) é perdido por link quebrado.',
     imgW: 1846, imgH: 928,
   },
+  {
+    src: `${ADMIN_WEBP}/desempenho-1142.webp`,
+    srcSet: adminSrcSet('desempenho'),
+    alt: 'Painel de desempenho do site: tráfego, audiência e melhor hora para publicar',
+    label: '// desempenho do site',
+    text: 'Audiência em tempo real: fontes de tráfego, cidades, dispositivos e novos vs. recorrentes — e, principalmente, o melhor dia e horário para publicar, com base nos dados reais da operação.',
+    imgW: 1846, imgH: 928,
+  },
 ]
 
 // WebP gerados por `npm run images` em /assets/monitoramento/webp/.
