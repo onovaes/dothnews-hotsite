@@ -1,4 +1,5 @@
 import { useState, useCallback, lazy, Suspense } from 'react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 import { Hero } from './components/hero'
 import { SiteHeader } from './components/header'
 import { GrowthSection, ReflectionSection } from './components/problem'
@@ -51,6 +52,8 @@ export default function App() {
         <Footer />
         <DiagnosisModal open={formOpen} onClose={closeForm} />
       </Suspense>
+      {/* Vercel Speed Insights — telemetria client-side (não renderiza no SSR/pré-render) */}
+      <SpeedInsights />
     </>
   )
 }
