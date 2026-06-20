@@ -113,10 +113,10 @@ function Carousel({ slides, interval = 3500, transition = 'fade' }) {
         >
           {slides.map((slide, i) => (
             <img
-              key={slide.src}
-              src={slide.webp}
-              srcSet={`${slide.webpXs} 400w, ${slide.webpSm} 800w, ${slide.webp} 1846w`}
-              sizes="(max-width: 400px) 100vw, (max-width: 640px) 800px, 1142px"
+              key={slide.name}
+              src={slide.src}
+              srcSet={slide.srcSet}
+              sizes="(min-width: 1024px) 1142px, (min-width: 640px) calc(100vw - 48px), 100vw"
               alt={slide.alt}
               width="1846"
               height="928"
@@ -154,12 +154,27 @@ function Carousel({ slides, interval = 3500, transition = 'fade' }) {
 
 // ─── Slides ───────────────────────────────────────────────────────────────────
 
+// WebP gerados por `npm run images` em /assets/area-administrativa/webp/‹nome›-‹largura›.webp.
+// As larguras devem casar com CAROUSEL_WIDTHS em scripts/optimize-images.mjs.
+const ADMIN_WEBP = '/assets/area-administrativa/webp'
+const CAROUSEL_WIDTHS = [480, 768, 1142, 1846]
+
+function adminSlide(name, alt, label) {
+  return {
+    name,
+    src: `${ADMIN_WEBP}/${name}-1142.webp`,
+    srcSet: CAROUSEL_WIDTHS.map((w) => `${ADMIN_WEBP}/${name}-${w}.webp ${w}w`).join(', '),
+    alt,
+    label,
+  }
+}
+
 const SLIDES = [
-  { src: '/assets/sgi-dashboard.png',  webp: '/assets/sgi-dashboard.webp',  webpSm: '/assets/sgi-dashboard-sm.webp',  webpXs: '/assets/sgi-dashboard-xs.webp',  alt: 'Painel de gestão editorial da DothNews',           label: 'Painel principal' },
-  { src: '/assets/sgi-posts.png',      webp: '/assets/sgi-posts.webp',      webpSm: '/assets/sgi-posts-sm.webp',      webpXs: '/assets/sgi-posts-xs.webp',      alt: 'Listagem de publicações da plataforma DothNews',   label: 'Gestão de publicações' },
-  { src: '/assets/sgi-criar-post.png', webp: '/assets/sgi-criar-post.webp', webpSm: '/assets/sgi-criar-post-sm.webp', webpXs: '/assets/sgi-criar-post-xs.webp', alt: 'Editor de conteúdo da plataforma DothNews',        label: 'Editor de conteúdo' },
-  { src: '/assets/sgi-config.png',     webp: '/assets/sgi-config.webp',     webpSm: '/assets/sgi-config-sm.webp',     webpXs: '/assets/sgi-config-xs.webp',     alt: 'Configurações da plataforma DothNews',             label: 'Configurações da plataforma' },
-  { src: '/assets/sgi-usuarios.png',   webp: '/assets/sgi-usuarios.webp',   webpSm: '/assets/sgi-usuarios-sm.webp',   webpXs: '/assets/sgi-usuarios-xs.webp',   alt: 'Gerenciamento de usuários da plataforma DothNews', label: 'Gerenciamento de usuários' },
+  adminSlide('dashboard',               'Painel de gestão editorial da DothNews',          'Painel principal'),
+  adminSlide('posts',                   'Listagem de publicações da plataforma DothNews',  'Gestão de publicações'),
+  adminSlide('criar-post',              'Editor de conteúdo da plataforma DothNews',       'Editor de conteúdo'),
+  adminSlide('app-token',               'Tela de App Token da plataforma DothNews',        'App Token'),
+  adminSlide('dispositivos-conectados', 'Dispositivos conectados na plataforma DothNews',  'Dispositivos conectados'),
 ]
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────

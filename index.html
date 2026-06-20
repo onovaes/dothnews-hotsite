@@ -42,12 +42,14 @@
 
     <!-- Fontes IBM Plex — auto-hospedadas, preload das variantes críticas para o primeiro render -->
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" />
     <link rel="preload" as="font" type="font/woff2" crossorigin href="/assets/fonts/ibm-plex-sans-latin-700-normal.woff2" />
 
     <!-- Performance: preload da imagem LCP (primeiro slide do carousel hero) -->
-    <link rel="preload" as="image" href="/assets/sgi-dashboard.webp"
-      imagesrcset="/assets/sgi-dashboard-xs.webp 400w, /assets/sgi-dashboard-sm.webp 800w, /assets/sgi-dashboard.webp 1846w"
-      imagesizes="(max-width: 400px) 100vw, (max-width: 640px) 800px, 1142px"
+    <!-- imagesrcset/imagesizes devem casar com hero.jsx (CAROUSEL_WIDTHS + sizes) -->
+    <link rel="preload" as="image" href="/assets/area-administrativa/webp/dashboard-1142.webp"
+      imagesrcset="/assets/area-administrativa/webp/dashboard-480.webp 480w, /assets/area-administrativa/webp/dashboard-768.webp 768w, /assets/area-administrativa/webp/dashboard-1142.webp 1142w, /assets/area-administrativa/webp/dashboard-1846.webp 1846w"
+      imagesizes="(min-width: 1024px) 1142px, (min-width: 640px) calc(100vw - 48px), 100vw"
       fetchpriority="high" />
 
     <!-- blob-blue: elemento identificado como LCP pelo PageSpeed — preload garante descoberta no HTML inicial -->

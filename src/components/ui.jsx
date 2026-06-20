@@ -176,13 +176,9 @@ export function Icon({ name, className = 'text-[32px]' }) {
 }
 
 export const CLIENT_LOGOS = [
-  { name: 'Correio do Estado',    file: '/assets/clients/correiodoestado.webp' },
-  { name: 'Folha de Pernambuco',  file: '/assets/clients/folhadepernambuco.webp' },
-  { name: 'Diário do Estado',     file: '/assets/clients/diariadoestado.webp' },
-  { name: 'Capital do Pantanal',  file: '/assets/clients/capitaldopantanal.webp' },
-  { name: 'Expressão MS',         file: '/assets/clients/expressaoms.webp' },
-  { name: 'Folha de Alphaville',  file: '/assets/clients/folhadealphaville.webp' },
-  { name: 'Portal Mais 360',      file: '/assets/clients/portalmais360.webp' },
-  { name: 'Diário da Baixada',    file: '/assets/clients/diariadabaixada.webp' },
-  { name: 'Portal de Prefeitura', file: '/assets/clients/portaldeprefeitura.webp' },
+  { name: 'Correio do Estado',    file: '/assets/clients/webp/correiodoestado.webp' },
+  { name: 'Folha de Pernambuco',  file: '/assets/clients/webp/folhadepernambuco.webp' },
+  { name: 'Diário do Estado',     file: '/assets/clients/webp/diariadoestado.webp' },
+  { name: 'Folha de Alphaville',  file: '/assets/clients/webp/folhadealphaville.webp' },
+  { name: 'Portal de Prefeitura', file: '/assets/clients/webp/portaldeprefeitura.webp' },
 ]

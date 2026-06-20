@@ -73,6 +73,21 @@ if (renderedHtml === html) {
   throw new Error('Could not find the root placeholder in dist/index.html.')
 }
 
-await fs.writeFile(indexPath, renderedHtml)
+// Inline do CSS: a landing é página única, então embutimos o CSS no HTML.
+// Remove o request render-blocking de /assets/*.css e faz o @font-face ser
+// descoberto direto no HTML (encurta a cadeia crítica de fontes). Ver PageSpeed.
+let finalHtml = renderedHtml
+const cssLink = finalHtml.match(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+\.css)"[^>]*>/)
+if (cssLink) {
+  const cssFile = path.join(distDir, cssLink[1].replace(/^\//, ''))
+  if (existsSync(cssFile)) {
+    const css = await fs.readFile(cssFile, 'utf8')
+    finalHtml = finalHtml.replace(cssLink[0], `<style>${css}</style>`)
+    await fs.rm(cssFile, { force: true })
+    console.log(`[prerender] CSS inlinado (${(css.length / 1024).toFixed(0)}KB) e ${cssLink[1]} removido.`)
+  }
+}
+
+await fs.writeFile(indexPath, finalHtml)
 await fs.rm(serverDir, { recursive: true, force: true })
 await removeAppleDoubleFiles(distDir)

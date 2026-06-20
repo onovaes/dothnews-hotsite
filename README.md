@@ -94,7 +94,23 @@ npm run preview    # preview do build estático
 npm start          # inicia o servidor Express de produção (requer build prévio)
 npm test           # roda os testes unitários (Vitest)
 npm run test:watch # testes em modo watch
+npm run images     # gera as thumbs WebP otimizadas dos prints (ver Imagens)
 ```
+
+### Imagens e prints
+
+Os prints da área administrativa e de clientes são servidos como **WebP gerados** a partir dos PNGs fonte — não edite WebP à mão.
+
+- PNGs fonte: `public/assets/area-administrativa/*.png` (carousel), `public/assets/monitoramento/*.png` (Grafana) e `public/assets/clients/prints/*.png`.
+- WebP gerados sempre numa subpasta `webp/` separada: `area-administrativa/webp/`, `monitoramento/webp/`, `clients/prints/webp/`.
+- Fluxo: troque o PNG → rode o gerador → commite os WebP.
+
+```bash
+npm run images                 # gera tudo
+npm run images -- dashboard    # gera só o que casar com "dashboard"
+```
+
+Os prints são capturados em **laptop 1440×900**. Ao trocar imagens, mantenha `srcSet`/`sizes` coerentes com a largura real para não regredir no PageSpeed. Detalhes em `DESIGN.md`.
 
 `npm run build` executa três etapas: build client do Vite, build SSR de `src/entry-server.jsx` e pre-render via `scripts/prerender.mjs`. O script também remove a pasta temporária `dist/server` e artefatos AppleDouble `._*` do `dist`.
 
