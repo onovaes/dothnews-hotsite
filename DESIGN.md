@@ -68,6 +68,33 @@ Os ícones são **ligaduras**: renderiza-se o nome (`arrow_outward`) e a fonte t
   4. `npm run build` e confira visualmente em cache frio.
 - **Não** reintroduzir Google Fonts com `display=optional`.
 
+## Imagens e prints (carousel / WhatSection / clientes)
+
+Os prints **não são editados à mão em webp**. O fluxo é: **trocar o PNG fonte → rodar o comando → commitar os webp gerados**.
+
+### Como os prints são capturados
+- Capturados a partir da **área administrativa real**, em **laptop 1440×900** (via ferramenta de captura do navegador / webmaster tools). Em telas de DPR 2× isso gera PNGs de ~**2880×1800**.
+- Mantenha o enquadramento consistente entre prints do mesmo carousel.
+- O carousel do hero exibe num box de proporção `1846/928` (~2:1) com `object-cover`; prints 16:10 (1440×900) sofrem leve corte topo/base. Centralize o conteúdo importante.
+
+### Onde ficam os arquivos
+Convenção: **PNG fonte numa pasta; webp gerados sempre numa subpasta `webp/` separada.**
+- **Carousel (área administrativa):** PNG em `public/assets/area-administrativa/‹nome›.png` (ex.: `dashboard`, `posts`, `criar-post`, `app-token`, `dispositivos-conectados`); webp em `public/assets/area-administrativa/webp/‹nome›-‹largura›.webp`.
+- **Monitoramento (Grafana):** PNG em `public/assets/monitoramento/‹nome›.png` (`overview`, `mysql`, `nginx`); webp em `public/assets/monitoramento/webp/`.
+- **Prints de clientes:** PNG em `public/assets/clients/prints/‹nome›.png`; webp em `public/assets/clients/prints/webp/‹nome›-‹largura›.webp`.
+
+### Gerar/otimizar as thumbs WebP
+```bash
+npm run images                 # gera tudo
+npm run images -- dashboard    # gera só o que casar com "dashboard" (substring)
+npm run images -- correio      # gera só os prints do "correio..."
+```
+Definido em `scripts/optimize-images.mjs`. Larguras: carousel `[480, 768, 1142, 1846]`, prints `[480, 768, 1200]` (`CAROUSEL_WIDTHS`/`PRINT_WIDTHS`).
+
+### Regra de performance (PageSpeed) — não regredir
+- Ao adicionar/trocar imagem, **mantenha o `srcSet` (larguras) e o `sizes` coerentes com a largura real renderizada**. `sizes` inflado faz o browser baixar a variante grande no mobile (foi a causa dos alertas "image larger than needed" do PageSpeed).
+- Hero (`src/components/hero.jsx`) e WhatSection/clientes (`src/components/solution.jsx`) constroem o `srcSet` a partir das larguras geradas; o preload LCP em `index.html` deve casar com o `sizes` do hero.
+
 ## Liquid glass
 
 Efeito de vidro usado em chips, header ao scroll, botões e alguns cards.
