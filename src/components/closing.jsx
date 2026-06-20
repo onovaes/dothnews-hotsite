@@ -65,6 +65,16 @@ const FINAL_METRICS = [
   { value: '99,9%', label: 'disponibilidade média' },
 ]
 
+// Máscara de telefone BR: (XX) XXXXX-XXXX (celular) ou (XX) XXXX-XXXX (fixo).
+// Formata progressivamente conforme o usuário digita; ignora não-dígitos.
+function formatPhoneBR(value) {
+  const d = String(value ?? '').replace(/\D/g, '').slice(0, 11)
+  if (d.length <= 2) return d ? `(${d}` : ''
+  if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`
+  if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`
+}
+
 const EMPTY_FORM = {
   nome: '',
   email: '',
@@ -84,6 +94,14 @@ function DiagnosisForm({ onSuccess }) {
   const [data, setData] = useState(EMPTY_FORM)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const nomeRef = useRef(null)
+
+  // Foco inicial no "Nome completo" ao abrir o formulário (só monta no modal).
+  // Pequeno delay para garantir que o modal já está pintado antes de focar.
+  useEffect(() => {
+    const t = setTimeout(() => nomeRef.current?.focus(), 60)
+    return () => clearTimeout(t)
+  }, [])
 
   const set = (k) => (e) => setData((d) => ({ ...d, [k]: e.target.value }))
   const valid = data.nome && data.email && data.portal && data.contato
@@ -115,11 +133,11 @@ function DiagnosisForm({ onSuccess }) {
   return (
     <form onSubmit={handleSubmit} className="p-6 sm:p-8">
       <div className="grid gap-5 sm:grid-cols-2">
-        <FormInput name="nome" label="Nome completo" required autoComplete="name" value={data.nome} onChange={set('nome')} />
+        <FormInput name="nome" label="Nome completo" required autoComplete="name" inputRef={nomeRef} value={data.nome} onChange={set('nome')} />
         <FormInput name="email" label="E-mail" type="email" required autoComplete="email" value={data.email} onChange={set('email')} />
         <FormInput name="portal" label="Nome do portal" required value={data.portal} onChange={set('portal')} />
         <FormInput name="url" label="URL do portal" type="text" autoComplete="url" value={data.url}  onChange={(e) => {let url = e.target.value; if (url && !url.startsWith('http://') && !url.startsWith('https://')) {url = `https://${url}`;}set('url')({ target: { value: url } });}} />
-        <FormInput name="contato" label="WhatsApp / Contato" required autoComplete="tel" value={data.contato} onChange={set('contato')} />
+        <FormInput name="contato" label="WhatsApp / Contato" required autoComplete="tel" inputMode="tel" maxLength={15} value={data.contato} onChange={(e) => set('contato')({ target: { value: formatPhoneBR(e.target.value) } })} />
         <FormSelect name="audiencia" label="Faixa de audiência mensal" value={data.audiencia} options={AUDIENCIA_OPTIONS} onChange={set('audiencia')} />
         <FormSelect name="plataforma" label="Plataforma atual" value={data.plataforma} options={PLATAFORMA_OPTIONS} onChange={set('plataforma')} />
       </div>
@@ -184,14 +202,12 @@ export function DiagnosisModal({ open, onClose }) {
   const [firstName, setFirstName] = useState('')
   const closeRef = useRef(null)
 
-  // Lock body scroll and manage focus when open
+  // Lock body scroll when open. O foco inicial é tratado pelo DiagnosisForm,
+  // que foca o campo "Nome completo" ao montar.
   useEffect(() => {
     if (!open) return
     document.body.style.overflow = 'hidden'
-    // Small delay so the element is rendered before focusing
-    const t = setTimeout(() => closeRef.current?.focus(), 50)
     return () => {
-      clearTimeout(t)
       document.body.style.overflow = ''
     }
   }, [open])
