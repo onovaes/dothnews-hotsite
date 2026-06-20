@@ -119,7 +119,7 @@ const MONITORING_SLIDES = [
   {
     src: `${MON_WEBP}/overview-1142.webp`,
     srcSet: monSrcSet('overview'),
-    alt: 'Visão geral do ambiente de monitoramento no Grafana',
+    alt: 'Visão geral do ambiente de monitoramento da infraestrutura',
     label: '// visão geral do ambiente',
     text: 'O mesmo painel que a nossa equipe acompanha internamente: o estado de toda a infraestrutura — CPU, memória, disco e rede de cada servidor em um único lugar.',
     imgW: 1917, imgH: 908,
@@ -127,18 +127,26 @@ const MONITORING_SLIDES = [
   {
     src: `${MON_WEBP}/mysql-1142.webp`,
     srcSet: monSrcSet('mysql'),
-    alt: 'Dashboard MySQL com QPS, conexões e buffer pool em tempo real',
+    alt: 'Painel do banco de dados em tempo real',
     label: '// banco de dados em operação real',
-    text: 'QPS, conexões e buffer pool que o nosso time acompanha a todo momento. Infraestrutura que não esconde o que está acontecendo.',
+    text: 'Consultas, conexões e cache do banco que o nosso time acompanha a todo momento. Infraestrutura que não esconde o que está acontecendo.',
     imgW: 1897, imgH: 910,
   },
   {
     src: `${MON_WEBP}/nginx-1142.webp`,
     srcSet: monSrcSet('nginx'),
-    alt: 'Dashboard de monitoramento do Nginx com requisições e latência',
+    alt: 'Painel de monitoramento do servidor web com requisições e latência',
     label: '// camada web em tempo real',
-    text: 'Requisições, tempo de resposta e status HTTP que a nossa equipe monitora no Nginx — anomalias detectadas antes de virarem incidente.',
+    text: 'Requisições, tempo de resposta e status HTTP que a nossa equipe monitora no servidor web — anomalias detectadas antes de virarem incidente.',
     imgW: 1900, imgH: 904,
+  },
+  {
+    src: `${MON_WEBP}/protecao-inteligente-1142.webp`,
+    srcSet: monSrcSet('protecao-inteligente'),
+    alt: 'Painel de proteção que bloqueia IPs com comportamento malicioso',
+    label: '// proteção inteligente',
+    text: 'Reconhece comportamento malicioso — varreduras, força bruta e bots — e bloqueia os IPs automaticamente, com inteligência compartilhada que barra ameaças antes de chegarem ao seu portal.',
+    imgW: 2880, imgH: 1800,
   },
 ]
 

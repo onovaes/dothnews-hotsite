@@ -68,7 +68,7 @@ async function processDirs() {
   const MON = join(ASSETS, 'monitoramento')
   const MON_WEBP = join(MON, 'webp')
   await mkdir(MON_WEBP, { recursive: true })
-  const monFiles = ['overview', 'mysql', 'nginx']
+  const monFiles = ['overview', 'mysql', 'nginx', 'protecao-inteligente']
   console.log('\n[monitoramento — grafana]')
   for (const name of monFiles) {
     if (!matches(name)) continue
