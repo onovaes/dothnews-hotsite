@@ -1,0 +1,197 @@
+/* Glow branco na logo do header — legível sobre fundos escuros sem degradar fundos claros */
+.logo-glow {
+  filter:drop-shadow(0 0 12px rgba(255, 255, 255, 0.7)) drop-shadow(1px 1px 4px rgba(255, 255, 255, 0.7)) drop-shadow(0 0 30px rgba(255, 255, 255, 0.5))
+}
+// ─── Hero background blobs ───────────────────────────────────────────────────
+// Posições calculadas a partir do frame Figma (1290px de altura, node 43:1992)
+
+.hero {
+  margin: 110px 40px;
+  height: 783px;
+  margin-bottom: 373px;
+  border-radius: 32px;
+
+  @media (max-width: 1023px) {
+    margin: 80px 24px 200px;
+  }
+
+  @media (max-width: 639px) {
+    margin: 0 8px;
+    padding: 80px 20px 40px;
+    height: auto;
+    margin-bottom: 60px;
+    border-radius: 16px;
+  }
+
+  .hero-background {
+    position: absolute;
+    inset: 0;
+
+    .hero-blob-purple {
+      bottom: 0;
+      left: 12.65%;
+      right: 1.1%;
+      height: 330px;
+      opacity: 0.48;
+      background: url('/assets/bg/blob-purple.svg') no-repeat center / 100% 100%;
+    }
+
+    .hero-blob-blue {
+      bottom: 0;
+      left: 6.6%;
+      right: 6.6%;
+      height: 404px;
+      opacity: 0.80;
+      background: url('/assets/bg/blob-blue.svg') no-repeat center / 100% 100%;
+    }
+
+    .hero-blur-overlay {
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(217, 217, 217, 0.01);
+
+      @media (max-width: 639px) {
+        -webkit-backdrop-filter: blur(40px);
+        backdrop-filter: blur(40px);
+      }
+    }
+
+  }
+
+}
+
+// ─── Logo marquee ─────────────────────────────────────────────────────────────
+
+.logo-marquee {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  animation: logo-scroll 34s linear infinite;
+
+  &:hover {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes logo-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(var(--mw)); }
+}
+
+// ─── WhySection background blobs (negativo do hero) ──────────────────────────
+// Mesmas proporções do hero, SVGs brancos sobre fundo azul via filter.
+
+.why-section {
+  .why-blob-1 {
+    bottom: 0;
+    left: 12.65%;
+    right: 1.1%;
+    height: 330px;
+  }
+
+  .why-blob-2 {
+    bottom: 0;
+    left: 6.6%;
+    right: 6.6%;
+    height: 404px;
+  }
+}
+
+// ─── Liquid glass — reusable ─────────────────────────────────────────────────
+// Use alongside any rounded-* Tailwind class; border-radius is inherited.
+// Mirrors the original .glassBtn structure:
+//   ::before → white tint + inset glow highlight (above content)
+//   ::after  → SVG glass-lens filter with backdrop (behind content)
+
+.liquid-glass {
+  position: relative;
+   // cria stacking context sem isolation — permite que ::after veja o fundo externo
+
+  // White tint + inner glow rim (acima do conteúdo)
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    border-radius: inherit;
+    box-shadow:
+      inset 1px 1px 0px -2px rgba(255, 255, 255, 0.7),
+      inset 0 0 2px 1px rgba(255, 255, 255, 0.7),
+      0 0 1px 1px rgba(0, 0, 0, 0.10);
+    background-color: rgb(255 255 255 / 30%);
+    pointer-events: none;
+  }
+
+  // Blur + distorção líquida no mesmo elemento — sem conflito
+  // backdrop-filter: blura o fundo primeiro
+  // filter: distorce o resultado já borrado
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: -2;
+    inset: 0;
+    border-radius: inherit;
+    -webkit-backdrop-filter: blur(8px) saturate(240%);
+    backdrop-filter: blur(8px) saturate(240%);
+    filter: url(#container-glass);
+    overflow: hidden;
+    isolation: isolate;
+    pointer-events: none;
+  }
+
+  &.fixed-liquid {
+    position: fixed;
+    &::before {
+      box-shadow:
+        0 1px 2px 0 rgba(0, 0, 0, 0.3),
+        0 4px 4px 0 rgba(0, 0, 0, 0.15);
+    }
+  }
+  &.frost { 
+    &::before {
+        background-color: rgb(255 255 255 / 80%);
+    }
+  }
+}
+
+// ─── Carousel transitions (slide / push) ─────────────────────────────────────
+// Usado pela prop transition='slide' ou 'push' no componente Carousel (hero.jsx).
+// Para trocar o efeito: alterar transition="fade" → "slide" ou "push" no <Carousel>.
+
+.carousel-enter-right { animation: carousel-in-right  700ms ease-in-out both; }
+.carousel-enter-left  { animation: carousel-in-left   700ms ease-in-out both; }
+.carousel-exit-right  { animation: carousel-out-right 700ms ease-in-out both; }
+.carousel-exit-left   { animation: carousel-out-left  700ms ease-in-out both; }
+
+@keyframes carousel-in-right  { from { transform: translateX(100%);  } to { transform: translateX(0);     } }
+@keyframes carousel-in-left   { from { transform: translateX(-100%); } to { transform: translateX(0);     } }
+@keyframes carousel-out-right { from { transform: translateX(0);     } to { transform: translateX(100%);  } }
+@keyframes carousel-out-left  { from { transform: translateX(0);     } to { transform: translateX(-100%); } }
+
+// ─── FAQ accordion ────────────────────────────────────────────────────────────
+
+.faq-answer {
+  grid-template-rows: 0fr;
+
+  &.is-open {
+    grid-template-rows: 1fr;
+  }
+}
+
+// ─── ScreenCarousel push transitions (SGI / Monitoramento) ───────────────────
+
+.sc-img-enter-right { animation: sc-in-right  0.38s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.sc-img-enter-left  { animation: sc-in-left   0.38s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.sc-img-exit-right  { animation: sc-out-right 0.38s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.sc-img-exit-left   { animation: sc-out-left  0.38s cubic-bezier(0.4, 0, 0.2, 1) both; }
+.sc-text-enter      { animation: sc-text-in   0.30s ease both; }
+
+@keyframes sc-in-right  { from { transform: translateX(100%);  } to { transform: translateX(0);     } }
+@keyframes sc-in-left   { from { transform: translateX(-100%); } to { transform: translateX(0);     } }
+@keyframes sc-out-right { from { transform: translateX(0);     } to { transform: translateX(100%);  } }
+@keyframes sc-out-left  { from { transform: translateX(0);     } to { transform: translateX(-100%); } }
+@keyframes sc-text-in   { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
