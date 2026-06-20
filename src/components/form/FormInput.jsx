@@ -32,6 +32,8 @@ export function FormInput({
   readOnly,
   autoComplete,
   autoFocus,
+  inputMode,
+  inputRef,
   helper,
   error,
   size = 'default',
@@ -93,6 +95,7 @@ export function FormInput({
         )}
 
         <input
+          ref={inputRef}
           id={inputId}
           name={name}
           type={type}
@@ -105,6 +108,7 @@ export function FormInput({
           readOnly={readOnly}
           autoComplete={autoComplete}
           autoFocus={autoFocus}
+          inputMode={inputMode}
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={describedBy}
           className={fieldCls}
