@@ -30,6 +30,11 @@ function Carousel({ slides, interval = 3500, transition = 'fade' }) {
     }, interval)
   }
 
+  // Pausa o autoplay (usado no hover do mouse; retoma no mouseleave)
+  function pauseTimer() {
+    clearInterval(timerRef.current)
+  }
+
   function goTo(index) {
     const c = currentRef.current
     if (index === c) return
@@ -98,11 +103,13 @@ function Carousel({ slides, interval = 3500, transition = 'fade' }) {
 
         {/* Slides */}
         <div
-          className="relative overflow-hidden rounded-[16px] border border-neutral-50 cursor-grab active:cursor-grabbing select-none"
+          className="relative overflow-hidden rounded-[16px] border border-neutral-50 cursor-grab active:cursor-grabbing select-none touch-pan-y"
           style={{ aspectRatio: '1846/928' }}
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
           onPointerCancel={() => { dragRef.current.active = false }}
+          onPointerEnter={(e) => { if (e.pointerType === 'mouse') pauseTimer() }}
+          onPointerLeave={(e) => { if (e.pointerType === 'mouse') startTimer() }}
         >
           {slides.map((slide, i) => (
             <img
