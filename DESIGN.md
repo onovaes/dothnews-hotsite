@@ -56,16 +56,18 @@ Prefira os **aliases semânticos** (`text-ink`, `border-line`, `bg-surface`) a t
 
 ## Ícones (Material Symbols Outlined)
 
-Os ícones são **ligaduras**: renderiza-se o nome (`arrow_outward`) e a fonte transforma em glifo.
+Os ícones são renderizados pelo **codepoint** (caractere PUA), não pela ligadura. O mapa `nome → caractere` fica em `src/lib/icons.js` (`iconChar(name)`), usado por `<Icon>`, `<Button icon>` e pelos spans crus (header/FAQ).
 
-- Fonte **auto-hospedada e subsetada**: `public/assets/fonts/material-symbols-outlined.woff2` (~230 KB), `@font-face` com **`font-display: swap`** em `src/index.css` (era `block`; `swap` evita o bloqueio de ~220ms no FCP que o PageSpeed apontava).
-- **Por que self-host + guard:** servir a fonte completa do Google com `display=optional` causava FOIT — no primeiro acesso (cache frio) aparecia o texto cru (ex.: `arrow_outward`) até a fonte chegar. O que elimina o flash é o **guard de visibilidade**: `.js .material-symbols-outlined { visibility: hidden }` revelado em `document.fonts.ready` (classe `fonts-ready` em `index.html`). Com o guard, `font-display` pode ser `swap` sem mostrar a ligadura crua.
-- **Componentes:** use `<Icon name="..." />` ou a prop `icon` de `<Button />` (ambos em `src/components/ui.jsx`). Ícones são `aria-hidden`.
+- Fonte **auto-hospedada e subsetada por codepoint**: `src/fonts/material-symbols-outlined.woff2` (~2 KB). `@font-face` com **`font-display: swap`** em `src/index.css`.
+- **Por que por codepoint:** subsetar por ligadura (`--text`) retinha ~3300 glifos (~230 KB) por causa da *closure* de ligaduras. Por codepoint o subset tem só os ícones usados (~2 KB) — foi o maior recurso do site (cadeia crítica no PageSpeed).
+- **Fontes no pipeline do Vite:** ficam em `src/fonts/` (não em `public/`). O Vite versiona com hash (IBM Plex) ou inlina como data-URI (a de ícones, por ser pequena) — isso dá **cache-busting automático** quando o conteúdo muda (evita o tofu por cache antigo).
+- **Guard anti-flash:** `.js .material-symbols-outlined { visibility: hidden }` revelado em `document.fonts.ready` (classe `fonts-ready`). Com o guard, `swap` não mostra caractere cru.
+- **Componentes:** `<Icon name="..." />` ou a prop `icon` de `<Button />` (`src/components/ui.jsx`); `aria-hidden`.
 - **Adicionar um ícone novo:**
-  1. Use o ícone no JSX (`<Icon name="novo_icone" />`).
+  1. Use no JSX (`<Icon name="novo_icone" />`).
   2. Adicione o nome à lista `ICONS` em `scripts/build-icon-font.sh`.
-  3. Rode `bash scripts/build-icon-font.sh` para regenerar o subset.
-  4. `npm run build` e confira visualmente em cache frio.
+  3. Rode `bash scripts/build-icon-font.sh` (regenera a fonte **e** `src/lib/icons.js`).
+  4. `npm run build` e confira visualmente.
 - **Não** reintroduzir Google Fonts com `display=optional`.
 
 ## Imagens e prints (carousel / WhatSection / clientes)

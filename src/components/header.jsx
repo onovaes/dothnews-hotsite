@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Shell, Button } from './ui'
+import { iconChar } from '../lib/icons'
 
 /**
  * Dados padrão do header — substitua por payload de API.
@@ -129,7 +130,7 @@ export function SiteHeader({
           aria-controls="mobile-menu"
         >
           <span className="material-symbols-outlined text-[24px]" aria-hidden="true">
-            {open ? 'close' : 'menu'}
+            {iconChar(open ? 'close' : 'menu')}
           </span>
         </button>
       </Shell>

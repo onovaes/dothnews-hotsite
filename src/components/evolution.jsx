@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Reveal, Shell, Chip, Card, Icon } from './ui'
+import { iconChar } from '../lib/icons'
 
 const EVO_CARDS = [
   {
@@ -156,7 +157,7 @@ function FaqItem({ item, open, onToggle, index }) {
             : 'border-line bg-white text-ink group-hover:border-primary/40')
         }>
           <span className="material-symbols-outlined text-[18px]" aria-hidden="true">
-            {open ? 'remove' : 'add'}
+            {iconChar(open ? 'remove' : 'add')}
           </span>
         </span>
       </button>
