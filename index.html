@@ -56,10 +56,10 @@
     <!-- blob-blue: elemento identificado como LCP pelo PageSpeed — preload garante descoberta no HTML inicial -->
     <link rel="preload" as="image" href="/assets/bg/blob-blue.svg" fetchpriority="high" />
 
-    <!-- Material Symbols (ícones): auto-hospedado e subsetado em /assets/fonts/ com @font-face
-         em index.css (font-display: block). Self-hosted evita o FOIT que mostrava o texto cru
-         da ligadura (ex.: "arrow_outward") no primeiro acesso. Carregado via @font-face
-         inlinado (sem preload, para não competir banda com o LCP). Ver DESIGN.md. -->
+    <!-- Material Symbols (ícones): fonte auto-hospedada e subsetada POR CODEPOINT em
+         src/fonts/ (@font-face em index.css; renderizada via codepoint, não ligadura).
+         Processada pelo Vite: ~2KB vira data-URI no CSS inlinado (sempre fresca, sem
+         cache stale). As IBM Plex (maiores) ganham hash no nome. Ver DESIGN.md. -->
     <script>
       document.documentElement.classList.add('js')
       // Revela os ícones só quando as fontes estiverem prontas (evita flash da ligadura crua).

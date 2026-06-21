@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { iconChar } from '../lib/icons'
 
 // Scroll reveal — module-level singleton (only registers listeners once)
 const revealEls = new Set()
@@ -114,7 +115,7 @@ export function Button({ as: Tag, variant = 'primary', size = 'md', icon, iconPo
   const linkProps = href ? { href } : {}
   const a11yProps = description ? { title: description, 'aria-description': description } : {}
   const iconEl = icon ? (
-    <span className={`material-symbols-outlined ${s.icon}`} aria-hidden="true">{icon}</span>
+    <span className={`material-symbols-outlined ${s.icon}`} aria-hidden="true">{iconChar(icon)}</span>
   ) : null
   return (
     <Root
@@ -171,7 +172,7 @@ export function ScreenFrame({ src, alt, className = '', imgClass = '' }) {
 
 export function Icon({ name, className = 'text-[32px]' }) {
   return (
-    <span className={`material-symbols-outlined ${className}`} aria-hidden="true">{name}</span>
+    <span className={`material-symbols-outlined ${className}`} aria-hidden="true">{iconChar(name)}</span>
   )
 }
 
