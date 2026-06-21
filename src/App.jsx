@@ -1,18 +1,15 @@
-import { useState, useCallback, lazy, Suspense } from 'react'
+import { useState, useCallback } from 'react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import { Analytics } from '@vercel/analytics/react'
 import { Hero } from './components/hero'
 import { SiteHeader } from './components/header'
 import { GrowthSection, ReflectionSection } from './components/problem'
-
-const WhatSection      = lazy(() => import('./components/solution').then(m => ({ default: m.WhatSection })))
-const WhySection       = lazy(() => import('./components/solution').then(m => ({ default: m.WhySection })))
-const EvolutionSection = lazy(() => import('./components/evolution').then(m => ({ default: m.EvolutionSection })))
-const FaqSection       = lazy(() => import('./components/evolution').then(m => ({ default: m.FaqSection })))
-const DiagnosisSection = lazy(() => import('./components/closing').then(m => ({ default: m.DiagnosisSection })))
-const FinalCta         = lazy(() => import('./components/closing').then(m => ({ default: m.FinalCta })))
-const Footer           = lazy(() => import('./components/closing').then(m => ({ default: m.Footer })))
-const DiagnosisModal   = lazy(() => import('./components/closing').then(m => ({ default: m.DiagnosisModal })))
+// Imports estáticos (não lazy): garantem que TODO o conteúdo seja renderizado no
+// SSR/pré-render (HTML completo p/ SEO). Com React.lazy, o renderToString suspende
+// (erro React #419) e as seções abaixo da dobra não entravam no HTML inicial.
+import { WhatSection, WhySection } from './components/solution'
+import { EvolutionSection, FaqSection } from './components/evolution'
+import { DiagnosisSection, FinalCta, Footer, DiagnosisModal } from './components/closing'
 
 export default function App() {
   const [formOpen, setFormOpen] = useState(false)
@@ -40,19 +37,15 @@ export default function App() {
         <Hero onOpenForm={openForm} />
         <GrowthSection />
         <ReflectionSection />
-        <Suspense fallback={null}>
-          <WhatSection />
-          <WhySection />
-          <EvolutionSection />
-          <FaqSection />
-          <DiagnosisSection />
-          <FinalCta onOpenForm={openForm} />
-        </Suspense>
+        <WhatSection />
+        <WhySection />
+        <EvolutionSection />
+        <FaqSection />
+        <DiagnosisSection />
+        <FinalCta onOpenForm={openForm} />
       </main>
-      <Suspense fallback={null}>
-        <Footer />
-        <DiagnosisModal open={formOpen} onClose={closeForm} />
-      </Suspense>
+      <Footer />
+      <DiagnosisModal open={formOpen} onClose={closeForm} />
       {/* Vercel Speed Insights + Web Analytics — telemetria client-side (não renderiza no SSR/pré-render) */}
       <SpeedInsights />
       <Analytics />
