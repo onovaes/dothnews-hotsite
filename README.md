@@ -41,11 +41,11 @@ Esta landing foi criada para apoiar a captacao de operacoes editoriais que cresc
 
 ## Tecnologias
 
-- React 18
-- Vite 5
-- Tailwind CSS 3
+- React 19
+- Vite 8
+- Tailwind CSS 4 (plugin `@tailwindcss/postcss`; config legada via `@config` em `src/index.css`)
 - Sass/SCSS
-- PostCSS e Autoprefixer
+- PostCSS
 - Pre-render SSR no build para entregar HTML indexável
 - JavaScript com ES Modules
 - Express (servidor de produção e endpoint de email)

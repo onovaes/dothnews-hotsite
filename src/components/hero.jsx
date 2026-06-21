@@ -123,7 +123,7 @@ function Carousel({ slides, interval = 3500, transition = 'fade' }) {
               draggable="false"
               className={slideClass(i)}
               loading={i === 0 ? 'eager' : 'lazy'}
-              fetchpriority={i === 0 ? 'high' : undefined}
+              fetchPriority={i === 0 ? 'high' : undefined}
             />
           ))}
         </div>

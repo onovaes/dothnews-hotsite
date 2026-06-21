@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Reveal, Shell, Chip, Card, Icon, Button } from './ui'
 import { MetricsGrid } from './solution'
+import { formatPhoneBR } from '../lib/phone'
 import { FormInput } from './form/FormInput'
 import { FormSelect } from './form/FormSelect'
 import { FormTextarea } from './form/FormTextarea'
@@ -64,16 +65,6 @@ const FINAL_METRICS = [
   { value: '100M+', label: 'pageviews por mês' },
   { value: '99,9%', label: 'disponibilidade média' },
 ]
-
-// Máscara de telefone BR: (XX) XXXXX-XXXX (celular) ou (XX) XXXX-XXXX (fixo).
-// Formata progressivamente conforme o usuário digita; ignora não-dígitos.
-function formatPhoneBR(value) {
-  const d = String(value ?? '').replace(/\D/g, '').slice(0, 11)
-  if (d.length <= 2) return d ? `(${d}` : ''
-  if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`
-  if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`
-  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`
-}
 
 const EMPTY_FORM = {
   nome: '',

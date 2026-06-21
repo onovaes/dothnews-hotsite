@@ -270,7 +270,7 @@ function ScreenCarousel({ slides, imageRight = true }) {
           width={prevSlide.imgW}
           height={prevSlide.imgH}
           loading="lazy"
-          fetchpriority="low"
+          fetchPriority="low"
           className={`absolute inset-0 h-full w-full object-cover object-left-top ${exitClass}`}
         />
       )}
@@ -283,7 +283,7 @@ function ScreenCarousel({ slides, imageRight = true }) {
         width={slide.imgW}
         height={slide.imgH}
         loading="lazy"
-        fetchpriority="low"
+        fetchPriority="low"
         className={`absolute inset-0 h-full w-full object-cover object-left-top ${enterClass}`}
       />
     </div>
@@ -503,7 +503,7 @@ function PrintCarousel() {
           width="1200"
           height="603"
           loading="lazy"
-          fetchpriority="low"
+          fetchPriority="low"
           className={`absolute inset-0 h-full w-full object-cover object-top ${exitClass}`}
         />
       )}
@@ -516,7 +516,7 @@ function PrintCarousel() {
         width="1200"
         height="603"
         loading="lazy"
-        fetchpriority="low"
+        fetchPriority="low"
         className={`absolute inset-0 h-full w-full object-cover object-top ${enterClass}`}
       />
       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 pt-16 bg-gradient-to-t from-black/60 via-black/20 to-transparent">
@@ -568,7 +568,7 @@ function ClientLogosGrid() {
           width={card.logoW}
           height={card.logoH}
           loading="lazy"
-          fetchpriority="low"
+          fetchPriority="low"
           className="h-10 w-auto object-contain brightness-0 invert opacity-70 transition-opacity hover:opacity-90"
         />
       ))}
