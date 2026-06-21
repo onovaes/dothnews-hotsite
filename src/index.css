@@ -1,3 +1,19 @@
+/* Tailwind 4: importa base+componentes+utilities. @config mantém os tokens do
+   tailwind.config.js (cores, fontes, max-w-shell) sem migrar para config CSS-first.
+   O @import precisa vir antes de qualquer outra regra (CSS spec). */
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+/* Tailwind 4 removeu o cursor:pointer padrão dos botões (o v3 aplicava).
+   Restaura o ponteiro de "clicável" em botões/links de ação (exceto desabilitados). */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  summary {
+    cursor: pointer;
+  }
+}
+
 /* ─── IBM Plex — auto-hospedado em /assets/fonts/ (paths estáticos, preloadáveis) ── */
 @font-face {
   font-family: 'IBM Plex Sans';
@@ -50,9 +66,6 @@
   src: url('/assets/fonts/material-symbols-outlined.woff2') format('woff2');
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 :root {
   --dn-primary: #2B00C9;
