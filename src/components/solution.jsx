@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { Reveal, Shell, Chip, Card, Icon } from './ui'
 
 
@@ -60,6 +60,14 @@ const SGI_SLIDES = [
     imgW: 1846, imgH: 928,
   },
   {
+    src: `${ADMIN_WEBP}/desempenho-1142.webp`,
+    srcSet: adminSrcSet('desempenho'),
+    alt: 'Painel de desempenho do site: tráfego, audiência e melhor hora para publicar',
+    label: '// desempenho do site',
+    text: 'Audiência em tempo real: fontes de tráfego, cidades, dispositivos e novos vs. recorrentes — e, principalmente, o melhor dia e horário para publicar, com base nos dados reais da operação.',
+    imgW: 1846, imgH: 928,
+  },
+  {
     src: `${ADMIN_WEBP}/criar-post-1142.webp`,
     srcSet: adminSrcSet('criar-post'),
     alt: 'Editor de criação de post',
@@ -68,11 +76,19 @@ const SGI_SLIDES = [
     imgW: 1846, imgH: 928,
   },
   {
+    src: `${ADMIN_WEBP}/posts-preview-1142.webp`,
+    srcSet: adminSrcSet('posts-preview'),
+    alt: 'Pré-visualização do post em desktop, tablet e mobile',
+    label: '// pré-visualização',
+    text: 'Veja exatamente como a matéria fica no desktop, no tablet e no celular antes de publicar — sem surpresas quando o conteúdo vai ao ar.',
+    imgW: 1846, imgH: 928,
+  },
+  {
     src: `${ADMIN_WEBP}/posts-1142.webp`,
     srcSet: adminSrcSet('posts'),
-    alt: 'Listagem e gestão de publicações no painel editorial',
-    label: '// gestão de publicações',
-    text: 'Listagem, filtros e controle de todo o conteúdo publicado. Fluxo editorial pensado para agilidade sem perder rastreabilidade.',
+    alt: 'Busca e gestão do histórico de publicações',
+    label: '// busca e histórico',
+    text: 'Busca instantânea que perdoa erros de digitação e encontra qualquer matéria em milissegundos — anos de arquivo na palma da mão, sem travar o portal.',
     imgW: 1846, imgH: 928,
   },
   {
@@ -80,17 +96,23 @@ const SGI_SLIDES = [
     srcSet: adminSrcSet('app-token'),
     alt: 'Tela de App Token da plataforma editorial',
     label: '// app token',
-    // TODO(copy): revisar a descrição do recurso App Token.
-    text: 'Geração e controle de tokens de acesso para integrações e automações com a plataforma, com permissões por aplicação.',
+    text: 'Plataforma 100% API-first: gere tokens com permissões por aplicação e conecte o que precisar — do seu próprio aplicativo mobile a inteligências artificiais para revisar textos e automatizar a redação.',
+    imgW: 1846, imgH: 928,
+  },
+  {
+    src: `${ADMIN_WEBP}/dois-fatores-seguranca-1142.webp`,
+    srcSet: adminSrcSet('dois-fatores-seguranca'),
+    alt: 'Configuração de autenticação em dois fatores',
+    label: '// dois fatores',
+    text: 'Ative a verificação em duas etapas e proteja o acesso à conta com um segundo fator além da senha — com códigos de recuperação para nunca ficar de fora.',
     imgW: 1846, imgH: 928,
   },
   {
     src: `${ADMIN_WEBP}/dispositivos-conectados-1142.webp`,
     srcSet: adminSrcSet('dispositivos-conectados'),
-    alt: 'Tela de dispositivos conectados da plataforma editorial',
+    alt: 'Dispositivos e sessões em que a sua conta está conectada',
     label: '// dispositivos conectados',
-    // TODO(copy): revisar a descrição do recurso Dispositivos conectados.
-    text: 'Visibilidade dos dispositivos e sessões conectados à operação, com controle de acesso e encerramento remoto.',
+    text: 'Veja todos os dispositivos e sessões em que a sua conta está conectada e encerre na hora qualquer acesso esquecido.',
     imgW: 1846, imgH: 928,
   },
   {
@@ -99,14 +121,6 @@ const SGI_SLIDES = [
     alt: 'Detecção de URLs 404 com criação de redirecionamento',
     label: '// recuperação de 404',
     text: 'Detecta automaticamente as URLs que retornam 404 e permite criar o redirecionamento na hora — nenhum acesso (nem SEO) é perdido por link quebrado.',
-    imgW: 1846, imgH: 928,
-  },
-  {
-    src: `${ADMIN_WEBP}/desempenho-1142.webp`,
-    srcSet: adminSrcSet('desempenho'),
-    alt: 'Painel de desempenho do site: tráfego, audiência e melhor hora para publicar',
-    label: '// desempenho do site',
-    text: 'Audiência em tempo real: fontes de tráfego, cidades, dispositivos e novos vs. recorrentes — e, principalmente, o melhor dia e horário para publicar, com base nos dados reais da operação.',
     imgW: 1846, imgH: 928,
   },
 ]
@@ -163,6 +177,44 @@ function PillarCard({ p }) {
   )
 }
 
+// Replica o comportamento do carousel principal (hero): auto-advance, pausa no
+// hover do mouse e swipe por toque no mobile. advanceRef/retreatRef apontam para
+// as funções de navegação atuais (refs evitam closure stale no setInterval).
+const SWIPE_THRESHOLD = 50
+function useCarouselControls(advanceRef, retreatRef, { interval = 5000, enabled = true } = {}) {
+  const autoRef = useRef(null)
+  const dragRef = useRef({ x: 0, active: false })
+
+  const reset = useCallback(() => {
+    clearInterval(autoRef.current)
+    if (enabled) autoRef.current = setInterval(() => advanceRef.current(), interval)
+  }, [advanceRef, interval, enabled])
+
+  const pause = useCallback(() => clearInterval(autoRef.current), [])
+
+  useEffect(() => {
+    reset()
+    return () => clearInterval(autoRef.current)
+  }, [reset])
+
+  const containerProps = {
+    onPointerDown: (e) => { dragRef.current = { x: e.clientX, active: true } },
+    onPointerUp: (e) => {
+      if (!dragRef.current.active) return
+      const dx = e.clientX - dragRef.current.x
+      dragRef.current.active = false
+      if (Math.abs(dx) > SWIPE_THRESHOLD) (dx < 0 ? advanceRef : retreatRef).current()
+      reset()
+    },
+    onPointerCancel: () => { dragRef.current.active = false },
+    // Pausa só com mouse real (no touch, pointerenter sintético travaria o autoplay).
+    onPointerEnter: (e) => { if (e.pointerType === 'mouse') pause() },
+    onPointerLeave: (e) => { if (e.pointerType === 'mouse') reset() },
+  }
+
+  return { reset, pause, containerProps }
+}
+
 function ScreenCarousel({ slides, imageRight = true }) {
   const [index, setIndex] = useState(0)
   const [prevIndex, setPrevIndex] = useState(null)
@@ -171,6 +223,11 @@ function ScreenCarousel({ slides, imageRight = true }) {
   const hasAnimated = useRef(false)
   const total = slides.length
   const showNav = total > 1
+
+  const goNextRef = useRef(() => {})
+  const goPrevRef = useRef(() => {})
+  // Sem auto-rolagem (só o carousel principal do hero gira sozinho); mantém só o swipe.
+  const { reset: resetAuto, containerProps } = useCarouselControls(goNextRef, goPrevRef, { enabled: false })
 
   useEffect(() => () => { if (timerRef.current) clearTimeout(timerRef.current) }, [])
 
@@ -181,10 +238,13 @@ function ScreenCarousel({ slides, imageRight = true }) {
     setDir(direction)
     setIndex(newIndex)
     timerRef.current = setTimeout(() => setPrevIndex(null), 400)
+    resetAuto()
   }
 
   const goNext = () => go((index + 1) % total, 1)
   const goPrev = () => go((index - 1 + total) % total, -1)
+  goNextRef.current = goNext
+  goPrevRef.current = goPrev
 
   const slide = slides[index]
   const prevSlide = prevIndex !== null ? slides[prevIndex] : null
@@ -209,6 +269,8 @@ function ScreenCarousel({ slides, imageRight = true }) {
           alt={prevSlide.alt}
           width={prevSlide.imgW}
           height={prevSlide.imgH}
+          loading="lazy"
+          fetchpriority="low"
           className={`absolute inset-0 h-full w-full object-cover object-left-top ${exitClass}`}
         />
       )}
@@ -221,6 +283,7 @@ function ScreenCarousel({ slides, imageRight = true }) {
         width={slide.imgW}
         height={slide.imgH}
         loading="lazy"
+        fetchpriority="low"
         className={`absolute inset-0 h-full w-full object-cover object-left-top ${enterClass}`}
       />
     </div>
@@ -275,7 +338,7 @@ function ScreenCarousel({ slides, imageRight = true }) {
     : 'lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]'
 
   return (
-    <div className={'grid items-stretch overflow-hidden rounded-2xl border border-line bg-white ' + cols}>
+    <div {...containerProps} className={'grid items-stretch overflow-hidden rounded-2xl border border-line bg-white touch-pan-y ' + cols}>
       {imageRight ? <>{textBlock}{imageBlock}</> : <>{imageBlock}{textBlock}</>}
     </div>
   )
@@ -400,6 +463,11 @@ function PrintCarousel() {
   const hasAnimated = useRef(false)
   const total = slides.length
 
+  const goNextRef = useRef(() => {})
+  const goPrevRef = useRef(() => {})
+  // Sem auto-rolagem (só o carousel principal do hero gira sozinho); mantém só o swipe.
+  const { reset: resetAuto, containerProps } = useCarouselControls(goNextRef, goPrevRef, { enabled: false })
+
   useEffect(() => () => { if (timerRef.current) clearTimeout(timerRef.current) }, [])
 
   const go = (newIndex, direction) => {
@@ -409,10 +477,13 @@ function PrintCarousel() {
     setDir(direction)
     setIndex(newIndex)
     timerRef.current = setTimeout(() => setPrevIndex(null), 400)
+    resetAuto()
   }
 
   const goNext = () => go((index + 1) % total, 1)
   const goPrev = () => go((index - 1 + total) % total, -1)
+  goNextRef.current = goNext
+  goPrevRef.current = goPrev
 
   const slide = slides[index]
   const prevSlide = prevIndex !== null ? slides[prevIndex] : null
@@ -421,7 +492,7 @@ function PrintCarousel() {
   const exitClass  = dir > 0 ? 'sc-img-exit-left' : 'sc-img-exit-right'
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-white/15" style={{ aspectRatio: '16/9' }}>
+    <div {...containerProps} className="relative overflow-hidden rounded-2xl border border-white/15 touch-pan-y" style={{ aspectRatio: '16/9' }}>
       {prevSlide && (
         <img
           key={`prev-${prevIndex}`}
@@ -431,6 +502,8 @@ function PrintCarousel() {
           alt={`Portal ${prevSlide.name} na DothNews`}
           width="1200"
           height="603"
+          loading="lazy"
+          fetchpriority="low"
           className={`absolute inset-0 h-full w-full object-cover object-top ${exitClass}`}
         />
       )}
@@ -443,6 +516,7 @@ function PrintCarousel() {
         width="1200"
         height="603"
         loading="lazy"
+        fetchpriority="low"
         className={`absolute inset-0 h-full w-full object-cover object-top ${enterClass}`}
       />
       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 pt-16 bg-gradient-to-t from-black/60 via-black/20 to-transparent">
@@ -494,6 +568,7 @@ function ClientLogosGrid() {
           width={card.logoW}
           height={card.logoH}
           loading="lazy"
+          fetchpriority="low"
           className="h-10 w-auto object-contain brightness-0 invert opacity-70 transition-opacity hover:opacity-90"
         />
       ))}

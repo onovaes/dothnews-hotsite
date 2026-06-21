@@ -80,7 +80,7 @@ function Carousel({ slides, interval = 3500, transition = 'fade' }) {
   }, [current])
 
   function slideClass(i) {
-    const base = 'absolute inset-0 w-full h-full object-cover'
+    const base = 'absolute inset-0 w-full h-full object-cover object-top'
     if (transition === 'fade') {
       return `${base} transition-opacity duration-700 ease-in-out ${i === current ? 'opacity-100' : 'opacity-0'}`
     }
@@ -170,13 +170,16 @@ function adminSlide(name, alt, label) {
 }
 
 const SLIDES = [
-  adminSlide('dashboard',               'Painel de gestão editorial da DothNews',          'Toda a sua operação em um só painel'),
-  adminSlide('posts',                   'Listagem de publicações da plataforma DothNews',  'Publique com controle total e sem fricção'),
-  adminSlide('criar-post',              'Editor de conteúdo da plataforma DothNews',       'Um editor feito para a velocidade da redação'),
-  adminSlide('app-token',               'Tela de App Token da plataforma DothNews',        'Integrações seguras via API, no seu controle'),
-  adminSlide('dispositivos-conectados', 'Dispositivos conectados na plataforma DothNews',  'Controle total de acessos e dispositivos'),
-  adminSlide('search-console-missing-urls', 'Detecção de URLs 404 com criação de redirecionamento', 'Recupere acessos perdidos em páginas 404'),
-  adminSlide('desempenho', 'Painel de desempenho do site: tráfego, audiência e melhor hora para publicar', 'Descubra a melhor hora para publicar'),
+  // Legendas em sequência: contam a jornada editorial (verbo a verbo).
+  adminSlide('dashboard',               'Painel de gestão editorial da DothNews',          'Acompanhe toda a operação em um só painel'),
+  adminSlide('desempenho',              'Painel de desempenho do site: tráfego, audiência e melhor hora para publicar', 'Descubra a melhor hora para publicar'),
+  adminSlide('criar-post',              'Editor de conteúdo da plataforma DothNews',       'Escreva num editor feito para a redação'),
+  adminSlide('posts-preview',           'Pré-visualização do post em desktop, tablet e mobile', 'Revise como a matéria fica antes de publicar'),
+  adminSlide('posts',                   'Busca e gestão do histórico de publicações',      'Encontre qualquer post em milissegundos'),
+  adminSlide('app-token',               'Tela de App Token da plataforma DothNews',        'Conecte apps e IA: 100% API-first'),
+  adminSlide('dois-fatores-seguranca',  'Configuração de autenticação em dois fatores',    'Proteja a conta com dois fatores'),
+  adminSlide('dispositivos-conectados', 'Dispositivos e sessões conectados à sua conta',  'Veja onde sua conta está conectada'),
+  adminSlide('search-console-missing-urls', 'Detecção de URLs 404 com criação de redirecionamento', 'Recupere os acessos perdidos em páginas 404'),
 ]
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────

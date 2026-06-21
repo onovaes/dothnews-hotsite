@@ -58,8 +58,8 @@ Prefira os **aliases semânticos** (`text-ink`, `border-line`, `bg-surface`) a t
 
 Os ícones são **ligaduras**: renderiza-se o nome (`arrow_outward`) e a fonte transforma em glifo.
 
-- Fonte **auto-hospedada e subsetada**: `public/assets/fonts/material-symbols-outlined.woff2` (~230 KB), `@font-face` com **`font-display: block`** em `src/index.css`.
-- **Por que self-host:** servir a fonte completa do Google com `display=optional` causava FOIT — no primeiro acesso (cache frio) aparecia o texto cru (ex.: `arrow_outward`) até a fonte chegar. `font-display: block` + guard `.js .material-symbols-outlined { visibility: hidden }` revelado em `document.fonts.ready` (classe `fonts-ready` em `index.html`) eliminam o flash.
+- Fonte **auto-hospedada e subsetada**: `public/assets/fonts/material-symbols-outlined.woff2` (~230 KB), `@font-face` com **`font-display: swap`** em `src/index.css` (era `block`; `swap` evita o bloqueio de ~220ms no FCP que o PageSpeed apontava).
+- **Por que self-host + guard:** servir a fonte completa do Google com `display=optional` causava FOIT — no primeiro acesso (cache frio) aparecia o texto cru (ex.: `arrow_outward`) até a fonte chegar. O que elimina o flash é o **guard de visibilidade**: `.js .material-symbols-outlined { visibility: hidden }` revelado em `document.fonts.ready` (classe `fonts-ready` em `index.html`). Com o guard, `font-display` pode ser `swap` sem mostrar a ligadura crua.
 - **Componentes:** use `<Icon name="..." />` ou a prop `icon` de `<Button />` (ambos em `src/components/ui.jsx`). Ícones são `aria-hidden`.
 - **Adicionar um ícone novo:**
   1. Use o ícone no JSX (`<Icon name="novo_icone" />`).

@@ -43,7 +43,7 @@ function EvoCard({ c }) {
     <Card highlight={hl} className="relative h-full overflow-hidden">
       {c.img && (
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <img src={c.img} alt="" loading="lazy" className="h-full w-full object-cover" />
+          <img src={c.img} alt="" loading="lazy" fetchpriority="low" width="768" height="480" className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/65 to-transparent"></div>
         </div>
       )}
