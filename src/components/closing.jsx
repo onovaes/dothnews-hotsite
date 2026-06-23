@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { Reveal, Shell, Chip, Card, Icon, Button } from './ui'
+import { WhatsAppIcon } from './WhatsAppIcon'
 import { MetricsGrid } from './solution'
 import { formatPhoneBR } from '../lib/phone'
+import { WHATSAPP_CONTACT } from '../lib/contact'
 import { FormInput } from './form/FormInput'
 import { FormSelect } from './form/FormSelect'
 import { FormTextarea } from './form/FormTextarea'
@@ -417,6 +419,17 @@ export function Footer() {
             <p className="text-[15px] leading-[1.55] text-ink lg:text-right">
               Infraestrutura especializada para portais de notícias.
             </p>
+            <a
+              href={WHATSAPP_CONTACT.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${WHATSAPP_CONTACT.description}: ${WHATSAPP_CONTACT.display}`}
+              className="mt-4 inline-flex items-center gap-2 rounded-[12px] bg-[#28CC63]/10 px-4 py-3 text-[14px] font-medium text-ink transition-all duration-300 hover:border-[#28CC63] hover:text-[#128C7E]"
+            >
+              <WhatsAppIcon className="h-5 w-5 shrink-0" />
+              <span>{WHATSAPP_CONTACT.label}</span>
+              <span className="font-semibold">{WHATSAPP_CONTACT.headerDisplay ?? WHATSAPP_CONTACT.display}</span>
+            </a>
           </div>
         </div>
         <div className="mt-12 flex flex-col gap-2 border-t border-line pt-6 text-[12.5px] text-faint sm:flex-row sm:items-center sm:justify-between">

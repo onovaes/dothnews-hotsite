@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { Shell, Button } from './ui'
+import { WhatsAppIcon } from './WhatsAppIcon'
 import { iconChar } from '../lib/icons'
+import { WHATSAPP_CONTACT } from '../lib/contact'
 
 /**
  * Dados padrão do header — substitua por payload de API.
@@ -10,6 +12,7 @@ import { iconChar } from '../lib/icons'
  *   logo:  { src, alt, href }
  *   links: [{ id, label, href }]
  *   cta:   { label, href, icon, iconPosition?, description? }
+ *   contact: { display, headerDisplay, href, description }
  * }
  */
 export const DEFAULT_HEADER = {
@@ -30,26 +33,40 @@ export const DEFAULT_HEADER = {
     iconPosition: 'right',
     description: 'Agende seu diagnóstico editorial gratuito com a equipe DothNews',
   },
+  contact: WHATSAPP_CONTACT,
 }
 
 // ─── SiteNav ──────────────────────────────────────────────────────────────────
 // Barra de navegação desktop. Recebe links e CTA como props.
 
-export function SiteNav({ links = [], cta = null, onOpenForm }) {
+export function SiteNav({ links = [], cta = null, contact = null, onOpenForm }) {
   return (
     <nav
-      className="hidden items-center gap-[40px] md:flex"
+      className="hidden items-center gap-5 lg:flex xl:gap-8"
       aria-label="Navegação principal"
     >
       {links.map((link) => (
         <a
           key={link.id ?? link.href}
           href={link.href}
-          className="text-[16px] font-medium text-ink transition-colors hover:text-primary"
+          className="text-[15px] font-medium text-ink transition-colors hover:text-primary lg:text-[16px]"
         >
           {link.label}
         </a>
       ))}
+
+      {contact && (
+        <a
+          href={contact.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${contact.description}: ${contact.display}`}
+          className="inline-flex items-center gap-2 text-[14px] bg-white/30 rounded-md py-1 px-2 font-medium transition-colors duration-300 hover:text-[#128C7E] xl:text-[15px]"
+        >
+          <WhatsAppIcon className="h-5 w-5 shrink-0" />
+          <span className="text-ink">{contact.headerDisplay ?? contact.display}</span>
+        </a>
+      )}
 
       {cta && (
         <Button
@@ -74,6 +91,7 @@ export function SiteHeader({
   logo  = DEFAULT_HEADER.logo,
   links = DEFAULT_HEADER.links,
   cta   = DEFAULT_HEADER.cta,
+  contact = DEFAULT_HEADER.contact,
   onOpenForm,
 }) {
   const [scrolled, setScrolled] = useState(false)
@@ -118,13 +136,13 @@ export function SiteHeader({
         </a>
 
         {/* Nav desktop */}
-        <SiteNav links={links} cta={cta} onOpenForm={onOpenForm} />
+        <SiteNav links={links} cta={cta} contact={contact} onOpenForm={onOpenForm} />
 
         {/* Botão hambúrguer mobile */}
         <button
           ref={hamburgerRef}
           onClick={() => setOpen((v) => !v)}
-          className="md:hidden"
+          className="lg:hidden"
           aria-label={open ? 'Fechar menu' : 'Abrir menu'}
           aria-expanded={open}
           aria-controls="mobile-menu"
@@ -137,7 +155,7 @@ export function SiteHeader({
 
       {/* Menu mobile */}
       {open && (
-        <div ref={menuRef} id="mobile-menu" className="border-t border-line bg-white md:hidden">
+        <div ref={menuRef} id="mobile-menu" className="border-t border-line bg-white lg:hidden">
           <Shell className="flex flex-col gap-1 py-4">
             {links.map((link) => (
               <a
@@ -149,6 +167,22 @@ export function SiteHeader({
                 {link.label}
               </a>
             ))}
+
+            {contact && (
+              <a
+                href={contact.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${contact.description}: ${contact.display}`}
+                onClick={() => setOpen(false)}
+                className="mt-2 flex items-center justify-between gap-3 rounded-xl border border-line px-4 py-3 text-[15px] font-medium text-black transition-colors hover:border-[#28CC63] hover:text-[#128C7E]"
+              >
+                <span className="flex items-center gap-2">
+                  <WhatsAppIcon className="h-5 w-5 shrink-0" />
+                  <span>{contact.headerDisplay ?? contact.display}</span>
+                </span>
+              </a>
+            )}
 
             {cta && (
               <Button
