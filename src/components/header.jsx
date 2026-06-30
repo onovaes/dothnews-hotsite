@@ -61,9 +61,9 @@ export function SiteNav({ links = [], cta = null, contact = null, onOpenForm }) 
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`${contact.description}: ${contact.display}`}
-          className="inline-flex items-center gap-2 text-[14px] bg-white/30 rounded-md py-1 px-2 font-medium transition-colors duration-300 hover:text-[#128C7E] xl:text-[15px]"
+          className="group inline-flex items-center gap-2 text-[14px] font-medium transition-all duration-300 px-4 py-2 rounded-[8px] hover:bg-[#28CC63] xl:text-[15px]"
         >
-          <WhatsAppIcon className="h-5 w-5 shrink-0" />
+          <WhatsAppIcon className="h-5 w-5 shrink-0 logo-glow transition-colors duration-300 group-hover:text-ink" />
           <span className="text-ink">{contact.headerDisplay ?? contact.display}</span>
         </a>
       )}
