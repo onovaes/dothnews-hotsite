@@ -125,7 +125,23 @@ function DiagnosisForm({ onSuccess }) {
 
   return (
     <form onSubmit={handleSubmit} className="p-6 sm:p-8">
-      <div className="grid gap-5 sm:grid-cols-2">
+
+      <div className="mb-6 rounded-2xl bg-neutral-50 px-4 py-4 flex items-center justify-between">
+        <p className="text-[13px] leading-[1.5] w-2/4 text-mute">
+          Prefere falar direto com a equipe? Chame a DothNews pelo WhatsApp.
+        </p>
+        <a
+          href={WHATSAPP_CONTACT.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${WHATSAPP_CONTACT.description}: ${WHATSAPP_CONTACT.display}`}
+          className="group inline-flex items-center gap-2 rounded-[12px] bg-[#28CC63]/10 px-4 py-3 text-[14px] font-medium text-ink transition-all duration-300 hover:bg-[#28CC63]"
+        >
+          <WhatsAppIcon className="h-5 w-5 shrink-0 transition-colors duration-300 group-hover:text-ink" />
+          <span className="font-semibold">{WHATSAPP_CONTACT.headerDisplay ?? WHATSAPP_CONTACT.display}</span>
+        </a>
+      </div>
+      <div className="grid gap-6 sm:grid-cols-2">
         <FormInput name="nome" label="Nome completo" required autoComplete="name" inputRef={nomeRef} value={data.nome} onChange={set('nome')} />
         <FormInput name="email" label="E-mail" type="email" required autoComplete="email" value={data.email} onChange={set('email')} />
         <FormInput name="portal" label="Nome do portal" required value={data.portal} onChange={set('portal')} />
@@ -424,10 +440,9 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`${WHATSAPP_CONTACT.description}: ${WHATSAPP_CONTACT.display}`}
-              className="mt-4 inline-flex items-center gap-2 rounded-[12px] bg-[#28CC63]/10 px-4 py-3 text-[14px] font-medium text-ink transition-all duration-300 hover:border-[#28CC63] hover:text-[#128C7E]"
+              className="mt-5 group inline-flex items-center gap-2 rounded-[12px] bg-[#28CC63]/10 px-4 py-3 text-[14px] font-medium text-ink transition-all duration-300 hover:bg-[#28CC63]"
             >
-              <WhatsAppIcon className="h-5 w-5 shrink-0" />
-              <span>{WHATSAPP_CONTACT.label}</span>
+              <WhatsAppIcon className="h-5 w-5 shrink-0 transition-colors duration-300 group-hover:text-ink" />
               <span className="font-semibold">{WHATSAPP_CONTACT.headerDisplay ?? WHATSAPP_CONTACT.display}</span>
             </a>
           </div>
