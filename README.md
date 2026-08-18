@@ -101,9 +101,10 @@ npm run images     # gera as thumbs WebP otimizadas dos prints (ver Imagens)
 
 Os prints da área administrativa e de clientes são servidos como **WebP gerados** a partir dos PNGs fonte — não edite WebP à mão.
 
-- PNGs fonte: `public/assets/area-administrativa/*.png` (carousel), `public/assets/monitoramento/*.png` (Grafana) e `public/assets/clients/prints/*.png`.
-- WebP gerados sempre numa subpasta `webp/` separada: `area-administrativa/webp/`, `monitoramento/webp/`, `clients/prints/webp/`.
+- PNGs fonte: `public/assets/area-administrativa/*.png` (carousel), `public/assets/monitoramento/*.png` (Grafana), `public/assets/clients/prints/*.png` e `public/assets/clients/*.png` (logos).
+- WebP gerados em pastas separadas: `area-administrativa/webp/`, `monitoramento/webp/`, `clients/prints/webp/` e `clients/webpv2/`.
 - Fluxo: troque o PNG → rode o gerador → commite os WebP.
+- Os logos de clientes têm as margens transparentes recortadas pelo gerador e usam uma área-base de `160×64px`, com compensação óptica para equilibrar formatos muito horizontais ou compactos.
 
 ```bash
 npm run images                 # gera tudo

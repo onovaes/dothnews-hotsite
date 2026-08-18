@@ -398,11 +398,16 @@ export function WhatSection() {
 }
 
 const CLIENT_CARDS = [
-  { name: 'Correio do Estado',    logo: '/assets/clients/webp/correiodoestado.webp',    logoW: 545, logoH: 110, meta: 'Campo Grande · MS',    print: '/assets/clients/prints/webp/correiodoestado' },
-  { name: 'Folha de Pernambuco',  logo: '/assets/clients/webp/folhadepernambuco.webp',  logoW: 570, logoH: 114, meta: 'Recife · PE',           print: '/assets/clients/prints/webp/folhadepernambuco' },
-  { name: 'Diário do Estado',     logo: '/assets/clients/webp/diariadoestado.webp',     logoW: 440, logoH: 87,  meta: 'Portal de notícias',   print: null },
-  { name: 'Folha de Alphaville',  logo: '/assets/clients/webp/folhadealphaville.webp',  logoW: 740, logoH: 165, meta: 'Alphaville · SP',       print: null },
-  { name: 'Portal de Prefeitura', logo: '/assets/clients/webp/portaldeprefeitura.webp', logoW: 438, logoH: 111, meta: 'Gestão pública',       print: null },
+  { name: 'Folha de Pernambuco',  logo: '/assets/clients/webpv2/folhadepernambuco.webp',  logoW: 298, logoH: 42,  logoClass: 'scale-105', meta: 'Recife · PE',        print: '/assets/clients/prints/webp/folhadepernambuco' },
+  { name: 'Correio do Estado',    logo: '/assets/clients/webpv2/correiodoestado.webp',    logoW: 296, logoH: 37,  logoClass: 'scale-105', meta: 'Campo Grande · MS', print: '/assets/clients/prints/webp/correiodoestado' },
+  { name: 'Dourados News',        logo: '/assets/clients/webpv2/douradosnews.webp',        logoW: 320, logoH: 167, meta: 'Portal de notícias',  print: null },
+  { name: 'São Carlos',           logo: '/assets/clients/webpv2/saocarlosagora.webp',     logoW: 320, logoH: 87,  logoClass: 'scale-105', meta: 'Portal de notícias', print: null },
+  { name: 'JD1 Notícias',         logo: '/assets/clients/webpv2/jd1noticias.webp',         logoW: 200, logoH: 154, meta: 'Portal de notícias',  print: null },
+  { name: 'O Pantaneiro',         logo: '/assets/clients/webpv2/opantaneiro.webp',         logoW: 320, logoH: 85,  logoClass: 'scale-105', meta: 'Portal de notícias', print: null },
+  { name: 'Portal de Prefeitura', logo: '/assets/clients/webpv2/portaldeprefeitura.webp', logoW: 290, logoH: 53,  logoClass: 'scale-110', meta: 'Gestão pública',    print: null },
+  { name: 'Diário da Jaraguá',        logo: '/assets/clients/webpv2/diariodajaragua.webp',    logoW: 302, logoH: 217, logoClass: 'scale-125', meta: 'Portal de notícias', print: null },
+  { name: 'Top Mídia News',       logo: '/assets/clients/webpv2/topmidianews.webp',        logoW: 201, logoH: 107, meta: 'Portal de notícias',  print: null },
+  { name: 'Folha de Alphaville',  logo: '/assets/clients/webpv2/folhadealphaville.webp',  logoW: 292, logoH: 41,  logoClass: 'scale-110', meta: 'Alphaville · SP',    print: null },
 ]
 
 const METRICS = [
@@ -558,19 +563,20 @@ function PrintCarousel() {
 
 function ClientLogosGrid() {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-5">
-      {CLIENT_CARDS.map((card, i) => (
-        <img
-          key={i}
-          src={card.logo}
-          alt={card.name}
-          title={card.name}
-          width={card.logoW}
-          height={card.logoH}
-          loading="lazy"
-          fetchPriority="low"
-          className="h-10 w-auto object-contain brightness-0 invert opacity-70 transition-opacity hover:opacity-90"
-        />
+    <div className="grid grid-cols-2 gap-x-5 gap-y-4 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-5 lg:gap-y-6">
+      {CLIENT_CARDS.map((card) => (
+        <div key={card.name} className="flex h-20 min-w-0 items-center justify-center">
+          <img
+            src={card.logo}
+            alt={card.name}
+            title={card.name}
+            width={card.logoW}
+            height={card.logoH}
+            loading="lazy"
+            fetchPriority="low"
+            className={`h-16 w-full max-w-[160px] object-contain opacity-80 transition-opacity hover:opacity-100 ${card.logoClass ?? ''}`}
+          />
+        </div>
       ))}
     </div>
   )

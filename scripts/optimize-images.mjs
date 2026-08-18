@@ -34,6 +34,7 @@ let generated = 0
 
 async function convertToWebP(inputPath, outputPath, options = {}) {
   const transform = sharp(inputPath)
+  if (options.trim) transform.trim({ background: { r: 0, g: 0, b: 0, alpha: 0 } })
   if (options.width) transform.resize({ width: options.width, withoutEnlargement: true })
   await transform.webp({ quality: WEBP_QUALITY }).toFile(outputPath)
   const [inStat, outStat] = await Promise.all([stat(inputPath), stat(outputPath)])
@@ -96,16 +97,16 @@ async function processDirs() {
   }
 
   // ── Client logos ───────────────────────────────────────────────────────────
-  // PNG em clients/; webp em clients/webp/ (diretorio separado).
+  // PNG em clients/; webp em clients/webpv2/ (diretorio separado).
   const logoDir = join(ASSETS, 'clients')
-  const logoWebp = join(logoDir, 'webp')
+  const logoWebp = join(ASSETS, 'clients/webpv2')
   await mkdir(logoWebp, { recursive: true })
   const logoFiles = (await readdir(logoDir)).filter(f => extname(f) === '.png' && !f.startsWith('.'))
   console.log('\n[client logos]')
   for (const file of logoFiles) {
     const name = basename(file, '.png')
     if (!matches(name)) continue
-    await convertToWebP(join(logoDir, file), join(logoWebp, `${name}.webp`))
+    await convertToWebP(join(logoDir, file), join(logoWebp, `${name}.webp`), { trim: true })
     generated++
   }
 
