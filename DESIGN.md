@@ -84,6 +84,8 @@ Convenção: **PNG fonte numa pasta; webp gerados sempre numa subpasta `webp/` s
 - **Carousel (área administrativa):** PNG em `public/assets/area-administrativa/‹nome›.png` (ex.: `dashboard`, `posts`, `criar-post`, `app-token`, `dispositivos-conectados`); webp em `public/assets/area-administrativa/webp/‹nome›-‹largura›.webp`.
 - **Monitoramento (Grafana):** PNG em `public/assets/monitoramento/‹nome›.png` (`overview`, `mysql`, `nginx`); webp em `public/assets/monitoramento/webp/`.
 - **Prints de clientes:** PNG em `public/assets/clients/prints/‹nome›.png`; webp em `public/assets/clients/prints/webp/‹nome›-‹largura›.webp`.
+- **Logos de clientes:** PNG transparente em `public/assets/clients ‹nome›.png`; webp em `public/assets/clients/webpv2/‹nome›.webp`.
+  O gerador recorta margens transparentes; a interface usa uma área-base de `160×64px` com `object-contain` e pequenas compensações ópticas por formato.
 
 ### Gerar/otimizar as thumbs WebP
 ```bash

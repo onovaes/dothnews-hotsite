@@ -177,9 +177,14 @@ export function Icon({ name, className = 'text-[32px]' }) {
 }
 
 export const CLIENT_LOGOS = [
-  { name: 'Correio do Estado',    file: '/assets/clients/webp/correiodoestado.webp' },
-  { name: 'Folha de Pernambuco',  file: '/assets/clients/webp/folhadepernambuco.webp' },
-  { name: 'Diário do Estado',     file: '/assets/clients/webp/diariadoestado.webp' },
-  { name: 'Folha de Alphaville',  file: '/assets/clients/webp/folhadealphaville.webp' },
-  { name: 'Portal de Prefeitura', file: '/assets/clients/webp/portaldeprefeitura.webp' },
+  { name: 'Folha de Pernambuco',  file: '/assets/clients/webpv2/folhadepernambuco.webp' },
+  { name: 'Correio do Estado',    file: '/assets/clients/webpv2/correiodoestado.webp' },
+  { name: 'Dourados News',        file: '/assets/clients/webpv2/douradosnews.webp' },
+  { name: 'São Carlos',           file: '/assets/clients/webpv2/saocarlosagora.webp' },
+  { name: 'JD1 Notícias',         file: '/assets/clients/webpv2/jd1noticias.webp' },
+  { name: 'O Pantaneiro',         file: '/assets/clients/webpv2/opantaneiro.webp' },
+  { name: 'Portal de Prefeitura', file: '/assets/clients/webpv2/portaldeprefeitura.webp' },
+  { name: 'Diário da Jaraguá',        file: '/assets/clients/webpv2/diariodajaragua.webp' },
+  { name: 'Top Mídia News',       file: '/assets/clients/webpv2/topmidianews.webp' },
+  { name: 'Folha de Alphaville',  file: '/assets/clients/webpv2/folhadealphaville.webp' },
 ]
