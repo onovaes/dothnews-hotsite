@@ -5,7 +5,7 @@ import sharp from 'sharp'
 import { describe, expect, it } from 'vitest'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../public/assets/clients')
-const SOURCE_DIR = join(ROOT, 'v2')
+const SOURCE_DIR = ROOT
 const WEBP_DIR = join(ROOT, 'webpv2')
 
 describe('logos de clientes WebP v2', () => {
