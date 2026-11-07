@@ -24,13 +24,13 @@
     "react-dom": "^19.2.7"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.3.3",
-    "@vitejs/plugin-react": "^6.1.0",
-    "postcss": "^8.4.47",
-    "sass": "^1.103.1",
-    "sharp": "^0.35.4",
+    "@tailwindcss/postcss": "^4.3.4",
+    "@vitejs/plugin-react": "^6.2.1",
+    "postcss": "^8.5.32",
+    "sass": "^1.107.1",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4.3.1",
-    "vite": "^8.2.2",
+    "vite": "^8.3.5",
     "vitest": "^4.1.11"
   }
 }
